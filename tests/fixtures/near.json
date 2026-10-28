@@ -1,0 +1,51 @@
+{
+  "now": 1793188800000,
+  "total": 3,
+  "ac": [
+    {
+      "hex": "440170",
+      "lat": 48.12,
+      "lon": 16.55,
+      "altBaro": 3250,
+      "onGround": false,
+      "gs": 168.4,
+      "track": 293.1,
+      "callsign": "AUA711",
+      "registration": "OE-LBP",
+      "typecode": "A320",
+      "airlineIcao": "AUA",
+      "category": "A3",
+      "kind": "airline",
+      "emergency": null,
+      "origin": "LOWW",
+      "dest": "LFPG",
+      "distanceKm": 4.21,
+      "bearing": 112.5,
+      "ageS": 1,
+      "someFutureField": "ignored"
+    },
+    {
+      "hex": "3c6752",
+      "lat": 48.11,
+      "lon": 16.57,
+      "altBaro": null,
+      "onGround": true,
+      "gs": 12.0,
+      "track": null,
+      "callsign": null,
+      "registration": null,
+      "typecode": null,
+      "airlineIcao": null,
+      "category": null,
+      "kind": "ground",
+      "emergency": null,
+      "origin": null,
+      "dest": null,
+      "distanceKm": 6.8,
+      "bearing": 98.0,
+      "ageS": 3,
+      "gndObj": true,
+      "est": null
+    }
+  ]
+}
