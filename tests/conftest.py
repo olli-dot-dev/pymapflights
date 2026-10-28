@@ -11,7 +11,9 @@ import pytest
 from aiohttp import ClientSession, web
 from aiohttp.test_utils import TestServer
 
-from pymapflights import MapFlights
+from pymapflights import MapFlights, throttle
+
+TEST_KEY = "mf_live_0123abcd" + "ef" * 24
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -24,9 +26,13 @@ def load_fixture(name: str) -> dict[str, Any]:
 
 @dataclass
 class FakeApi:
-    """Local HTTP server that answers every request with `response`."""
+    """Local HTTP server that answers every request with the configured reply."""
 
-    response: web.StreamResponse = field(default_factory=lambda: web.json_response({}))
+    status: int = 200
+    payload: object = field(default_factory=dict)
+    text: str | None = None
+    content_type: str = "text/plain"
+    headers: dict[str, str] | None = None
     requests: list[web.Request] = field(default_factory=list)
     delay: float = 0
 
@@ -39,25 +45,38 @@ class FakeApi:
         text: str | None = None,
         content_type: str = "text/plain",
     ) -> None:
-        """Set the next response."""
-        if text is not None:
-            self.response = web.Response(
-                status=status, text=text, headers=headers, content_type=content_type
-            )
-        else:
-            self.response = web.json_response(payload, status=status, headers=headers)
+        """Set the reply for the following requests."""
+        self.payload = payload
+        self.status = status
+        self.headers = headers
+        self.text = text
+        self.content_type = content_type
 
     async def handle(self, request: web.Request) -> web.StreamResponse:
-        """Record the request and answer it."""
+        """Record the request and answer it (a response can only be sent once)."""
         self.requests.append(request)
         if self.delay:
             await asyncio.sleep(self.delay)
-        return self.response
+        if self.text is not None:
+            return web.Response(
+                status=self.status,
+                text=self.text,
+                headers=self.headers,
+                content_type=self.content_type,
+            )
+        return web.json_response(self.payload, status=self.status, headers=self.headers)
 
     @property
     def last(self) -> web.Request:
         """The most recent request."""
         return self.requests[-1]
+
+
+@pytest.fixture(autouse=True)
+def fast_throttle(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Fresh throttles per test with a short live interval."""
+    monkeypatch.setattr(throttle, "LIVE_INTERVAL_S", 0.05)
+    monkeypatch.setattr(throttle, "_throttles", {})
 
 
 @pytest.fixture
@@ -85,7 +104,7 @@ async def client(api: tuple[FakeApi, str]) -> AsyncIterator[MapFlights]:
     """Client talking to the fake API."""
     async with ClientSession() as session:
         yield MapFlights(
-            "test-key",
+            TEST_KEY,
             session=session,
             user_agent="test-agent/1.0",
             base_url=api[1],

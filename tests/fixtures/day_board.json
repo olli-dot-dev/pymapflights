@@ -1,0 +1,29 @@
+{
+  "icao": "LOWW", "iata": "VIE", "name": "Vienna International Airport", "municipality": "Vienna",
+  "country": "AT", "tz": "Europe/Vienna", "lat": 48.11, "lon": 16.57, "has3d": true,
+  "dir": "dep", "day": 0, "date": "2026-10-28",
+  "from": 1793142000000, "to": 1793228400000, "generatedAt": 1793188800000,
+  "source": "feed",
+  "rows": [
+    {
+      "key": "OS711-2026-10-28", "basis": "board",
+      "planTime": 1793190000000, "estTime": 1793190600000, "measuredTime": null, "seenTime": null,
+      "flightNumber": "OS711", "callsign": "AUA711", "codeshares": ["LH6321"],
+      "airlineIcao": "AUA", "airlineIata": "OS", "airlineName": "Austrian Airlines",
+      "counterpart": {"icao": "LFPG", "iata": "CDG", "name": "Charles de Gaulle", "municipality": "Paris", "country": "FR", "lat": 49.0, "lon": 2.55},
+      "gate": "F12", "terminal": "3", "belt": null, "status": "delayed",
+      "band": "delayed_15", "bandBasis": "board", "typecode": "A320", "flightId": null
+    },
+    {
+      "key": "usual-xyz", "basis": "usual",
+      "planTime": 1793200000000, "estTime": null, "measuredTime": null, "seenTime": null,
+      "flightNumber": null, "callsign": "WZZ1234", "codeshares": null,
+      "airlineIcao": "WZZ", "airlineIata": null, "airlineName": null,
+      "counterpart": null, "gate": null, "terminal": null, "belt": null, "status": null,
+      "band": null, "bandBasis": null, "typecode": null, "flightId": null
+    }
+  ],
+  "truncated": false,
+  "attribution": {"text": "Flughafen Wien", "url": "https://www.viennaairport.com"},
+  "boardFetched": 1793188700000
+}

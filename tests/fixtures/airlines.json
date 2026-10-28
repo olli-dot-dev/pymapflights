@@ -1,0 +1,7 @@
+{
+  "total": 2,
+  "items": [
+    {"icao": "AUA", "iata": "OS", "name": "Austrian Airlines", "country": "AT", "fleetSize": 70, "routesCount": 120, "flights30d": 9000},
+    {"icao": "WZZ", "iata": "W6", "name": null, "country": "HU", "fleetSize": 200, "routesCount": 400, "flights30d": 20000, "logo": {"url": "x", "url2x": "y", "png": "z", "source": "commons", "link": "l", "license": null, "licenseUrl": null, "width": 1, "height": 1}}
+  ]
+}

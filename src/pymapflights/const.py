@@ -2,7 +2,7 @@
 
 from typing import Final
 
-VERSION: Final = "0.1.0"
+VERSION: Final = "0.2.0"
 
 DEFAULT_BASE_URL: Final = "https://map.flights"
 DEFAULT_USER_AGENT: Final = (
@@ -17,5 +17,10 @@ HEADER_RATE_LIMIT: Final = "X-RateLimit-Limit"
 HEADER_RATE_REMAINING: Final = "X-RateLimit-Remaining"
 HEADER_RATE_RESET: Final = "X-RateLimit-Reset"
 
+KEY_PREFIX_LENGTH: Final = 16
+"""`mf_live_` + 8 hex."""
+
 NEAR_MAX_RADIUS_KM: Final = 500
 NEAR_MAX_LIMIT: Final = 500
+AIRCRAFT_FLIGHTS_MAX_LIMIT: Final = 50
+AIRLINES_MAX_LIMIT: Final = 200

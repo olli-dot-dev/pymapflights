@@ -1,0 +1,8 @@
+{
+  "key": {"prefix": "mf_live_0123abcd", "label": "internal note", "tier": "feeder", "created": 1793188800000},
+  "tariff": {"id": "home"},
+  "limits": {"perMinute": 60, "perDay": 1000, "ws": 0},
+  "usage": {"day": "2026-10-28", "total": 12, "byGroup": {"map": 0, "airports": 12}, "remainingDay": 988, "resetS": 43200},
+  "attribution": "Data: map.flights",
+  "notice": "..."
+}

@@ -1,0 +1,25 @@
+{
+  "now": 1793188800000,
+  "flight": {
+    "id": null, "callsign": "AUA711", "airlineIcao": "AUA", "typecode": "A320",
+    "origin": {"icao": "LOWW", "iata": "VIE", "name": "Vienna", "municipality": "Vienna", "country": "AT", "lat": 48.11, "lon": 16.57},
+    "dest": {"icao": "LFPG", "iata": "CDG", "name": "Charles de Gaulle", "municipality": "Paris", "country": "FR", "lat": 49.0, "lon": 2.55},
+    "originSource": "trajectory", "destSource": "routes_db",
+    "firstSeen": 1793188000000, "lastSeen": 1793188790000,
+    "takeoffTime": 1793188200000, "landingTime": null,
+    "completeness": "no_landing", "classification": "scheduled", "diverted": false,
+    "confidence": 0.9, "icao": 4456816, "hex": "440170", "registration": "OE-LBP",
+    "segments": 1, "segmentIds": [], "gaps": []
+  },
+  "airline": {"icao": "AUA", "iata": "OS", "name": "Austrian Airlines"},
+  "live": {
+    "icao": 4456816, "hex": "440170", "callsign": "AUA711", "registration": "OE-LBP", "typecode": "A320",
+    "lat": 48.3, "lon": 16.1, "altBaro": 12000, "onGround": false, "altGeom": 12300,
+    "gs": 320.0, "track": 290.0, "baroRate": 1800, "squawk": "4621", "emergency": null,
+    "category": "A3", "source": 0, "receiver": null, "seenPos": 0.4, "updated": 1793188790000
+  },
+  "delay": {
+    "dep": {"direction": "dep", "airportIcao": "LOWW", "tz": "Europe/Vienna", "band": "delayed_15", "minutes": 18, "estimated": false, "basis": "schedule", "source": "vie", "schedTime": 1793187000000, "estTime": null, "actualTime": 1793188080000, "status": "departed", "match": "registration", "boardActualTime": null, "boardActualKind": null},
+    "arr": null
+  }
+}

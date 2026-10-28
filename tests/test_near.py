@@ -19,7 +19,7 @@ from pymapflights import (
     RateLimitInfo,
 )
 
-from .conftest import FakeApi, load_fixture
+from .conftest import TEST_KEY, FakeApi, load_fixture
 
 
 async def test_near(fake_api: FakeApi, client: MapFlights) -> None:
@@ -58,7 +58,8 @@ async def test_near(fake_api: FakeApi, client: MapFlights) -> None:
     assert not second.estimated
 
     assert client.attribution == "Data: map.flights, adsb.fi"
-    assert client.rate_limit == RateLimitInfo(limit=1, remaining=0, reset_s=5)
+    assert client.daily_rate_limit is None
+    assert client.live_rate_limit == RateLimitInfo(limit=1, remaining=0, reset_s=5)
 
 
 async def test_request_headers(fake_api: FakeApi, client: MapFlights) -> None:
@@ -70,9 +71,10 @@ async def test_request_headers(fake_api: FakeApi, client: MapFlights) -> None:
     assert request.path == "/api/v1/near/48.11/16.57/25"
     assert request.query["limit"] == "100"
     headers = request.headers
-    assert headers["x-api-key"] == "test-key"
+    assert headers["x-api-key"] == TEST_KEY
     assert headers["User-Agent"] == "test-agent/1.0"
-    assert client.rate_limit is None
+    assert client.live_rate_limit is None
+    assert client.daily_rate_limit is None
 
 
 async def test_coordinates_rounded(fake_api: FakeApi, client: MapFlights) -> None:

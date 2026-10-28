@@ -1,0 +1,15 @@
+{
+  "hex": "440170",
+  "flights": [
+    {
+      "id": 987654, "callsign": "AUA712", "airlineIcao": "AUA", "typecode": "A320",
+      "origin": {"icao": "LFPG", "iata": "CDG", "name": "Charles de Gaulle", "municipality": "Paris", "country": "FR", "lat": 49.0, "lon": 2.55},
+      "dest": {"icao": "LOWW", "iata": "VIE", "name": "Vienna", "municipality": "Vienna", "country": "AT", "lat": 48.11, "lon": 16.57},
+      "originSource": "trajectory", "destSource": "trajectory",
+      "firstSeen": 1793160000000, "lastSeen": 1793168000000,
+      "takeoffTime": 1793160600000, "landingTime": 1793167400000,
+      "completeness": "complete", "classification": "scheduled", "diverted": false, "confidence": 1.0,
+      "segments": 1, "segmentIds": [987654], "gaps": []
+    }
+  ]
+}
