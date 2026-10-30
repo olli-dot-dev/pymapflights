@@ -2,7 +2,7 @@
 
 from typing import Final
 
-VERSION: Final = "0.2.0"
+VERSION: Final = "0.3.0"
 
 DEFAULT_BASE_URL: Final = "https://map.flights"
 DEFAULT_USER_AGENT: Final = (

@@ -1,8 +1,15 @@
 {
   "key": {"prefix": "mf_live_0123abcd", "label": "internal note", "tier": "feeder", "created": 1793188800000},
-  "tariff": {"id": "home"},
+  "tariff": {"id": "home", "dormant": false, "groups": ["live", "flights"]},
   "limits": {"perMinute": 60, "perDay": 1000, "ws": 0},
   "usage": {"day": "2026-10-28", "total": 12, "byGroup": {"map": 0, "airports": 12}, "remainingDay": 988, "resetS": 43200},
+  "accountId": "6f1c2e7a-3b4d-4e5f-8a9b-0c1d2e3f4a5b",
+  "stations": [
+    {"id": 42, "slug": "station-42", "name": null, "feedingNow": true, "lastSeen": 1793188800000, "active": true}
+  ],
+  "area": [
+    {"lat": 48.21, "lon": 16.37, "radiusKm": 50, "kind": "home", "label": "Home", "reachKm": null}
+  ],
   "attribution": "Data: map.flights",
   "notice": "..."
 }

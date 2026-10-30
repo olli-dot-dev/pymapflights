@@ -8,6 +8,8 @@ from pymapflights import (
     MapFlights,
     MapFlightsNoCurrentFlightError,
     MapFlightsNotFoundError,
+    MeAreaCircle,
+    MeStation,
     RateLimitInfo,
     key_prefix,
 )
@@ -44,6 +46,23 @@ async def test_me(fake_api: FakeApi, client: MapFlights) -> None:
     assert me.limits.per_minute == 60
     assert me.usage.remaining_day == 988
     assert not hasattr(me.key, "label")
+    assert me.tariff is not None
+    assert me.tariff.dormant is False
+    assert me.account_id == "6f1c2e7a-3b4d-4e5f-8a9b-0c1d2e3f4a5b"
+    assert me.stations == [
+        MeStation(
+            id=42,
+            slug="station-42",
+            name=None,
+            feeding_now=True,
+            last_seen=datetime(2026, 10, 28, 12, 0, tzinfo=UTC),
+            active=True,
+        )
+    ]
+    assert me.area == [
+        MeAreaCircle(lat=48.21, lon=16.37, radius_km=50, kind="home", label="Home")
+    ]
+    assert me.area_worldwide is False
     assert client.daily_rate_limit == RateLimitInfo(
         limit=1000, remaining=987, reset_s=43200
     )
@@ -72,7 +91,39 @@ async def test_me_minimal(fake_api: FakeApi, client: MapFlights) -> None:
 
     assert me.tariff_id is None
     assert me.usage.remaining_day is None
+    assert me.account_id is None
+    assert me.stations is None
+    assert me.area is None
+    assert me.area_worldwide is False
     assert client.remaining_today is None
+
+
+@pytest.mark.parametrize(
+    ("area", "circles", "worldwide"),
+    [(None, None, True), ([], [], False)],
+)
+async def test_me_area_world_and_nowhere(
+    fake_api: FakeApi,
+    client: MapFlights,
+    area: list[object] | None,
+    circles: list[MeAreaCircle] | None,
+    *,
+    worldwide: bool,
+) -> None:
+    fake_api.reply({"key": {"prefix": "mf_live_0123abcd"}, "area": area})
+
+    me = await client.me()
+
+    assert me.area == circles
+    assert me.area_worldwide is worldwide
+
+
+async def test_me_ignores_injected_worldwide_flag(
+    fake_api: FakeApi, client: MapFlights
+) -> None:
+    fake_api.reply({"key": {"prefix": "mf_live_0123abcd"}, "_areaWorldwide": True})
+
+    assert (await client.me()).area_worldwide is False
 
 
 async def test_day_board(fake_api: FakeApi, client: MapFlights) -> None:

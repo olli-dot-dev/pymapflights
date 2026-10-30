@@ -148,9 +148,11 @@ class MeKey(_Model):
 
 @dataclass(frozen=True)
 class MeTariff(_Model):
-    """Tariff of the key (announced by the operator, not yet in the spec)."""
+    """Tariff of the key. The spec leaves the object open; `id` is per operator."""
 
     id: str | None = None
+    dormant: bool | None = None
+    """The station operator key sleeps (no station data for 7 days)."""
 
 
 @dataclass(frozen=True)
@@ -178,6 +180,46 @@ class MeUsage(_Model):
 
 
 @dataclass(frozen=True)
+class MeStation(_Model):
+    """One station of the account the key belongs to."""
+
+    id: int | None = None
+    slug: str | None = None
+    """`station-<id>`, the slug of the station profile."""
+    name: str | None = None
+    """Public name; None = the operator did not choose one."""
+    feeding_now: bool | None = field(
+        default=None, metadata=field_options(alias="feedingNow")
+    )
+    """The station sent data in the last 2 minutes."""
+    last_seen: datetime | None = field(
+        default=None, metadata=field_options(alias="lastSeen")
+    )
+    active: bool | None = None
+    """Data in the last 7 days; keeps a station operator key awake."""
+
+
+@dataclass(frozen=True)
+class MeAreaCircle(_Model):
+    """One circle of the live-data area of a key. Units: degrees, km.
+
+    A station circle is centred on the station's 25 km grid cell, a home key
+    circle on the chosen place rounded to 0.01 degrees.
+    """
+
+    lat: float
+    lon: float
+    radius_km: float = field(metadata=field_options(alias="radiusKm"))
+    kind: str | None = None
+    """`station`, `area` or `home`."""
+    label: str | None = None
+    reach_km: float | None = field(
+        default=None, metadata=field_options(alias="reachKm")
+    )
+    """Measured typical range of the station, when known."""
+
+
+@dataclass(frozen=True)
 class Me(_Model):
     """Response of `GET /me`."""
 
@@ -185,7 +227,31 @@ class Me(_Model):
     limits: MeLimits = field(default_factory=MeLimits)
     usage: MeUsage = field(default_factory=MeUsage)
     tariff: MeTariff | None = None
+    account_id: str | None = field(
+        default=None, metadata=field_options(alias="accountId")
+    )
+    """Stable opaque id of the account; survives a new key. Not a secret."""
+    stations: list[MeStation] | None = None
+    """Stations of the account; None = key without an account."""
+    area: list[MeAreaCircle] | None = None
+    """Live-data area as circles; `[]` = nowhere right now (sleeping key).
+
+    None = not reported (no tariff, tariff by continent) or the whole world,
+    see `area_worldwide`.
+    """
+    area_worldwide: bool = field(
+        default=False, metadata=field_options(alias="_areaWorldwide")
+    )
+    """The API sent `area: null`: live data for the whole world."""
     attribution: str | None = None
+
+    @classmethod
+    def __pre_deserialize__(cls, d: dict[str, object]) -> dict[str, object]:
+        """Keep `area: null` (whole world) apart from a missing `area`."""
+        d = {k: v for k, v in d.items() if k != "_areaWorldwide"}
+        if "area" in d and d["area"] is None:
+            d["_areaWorldwide"] = True
+        return d
 
     @property
     def tariff_id(self) -> str | None:

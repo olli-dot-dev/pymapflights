@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0
+
+### Added
+
+- `Me.account_id`: stable account id that survives a new key
+- `Me.stations` (`MeStation`) and `Me.area` (`MeAreaCircle`), with
+  `Me.area_worldwide` for `area: null`
+- `MeTariff.dormant`
+
 ## 0.2.0
 
 First release.
